@@ -1,139 +1,39 @@
-# TundraBoard
+# TundraBoard (Legacy Branch)
 
-Task management and team collaboration API — the starter project for the **AI-Native Software Development** training programme.
+> **This branch contains a deliberately messy JavaScript codebase for Module 2
+> modernisation exercises.** The code has intentional anti-patterns that you
+> will modernise using AI-assisted development techniques.
 
-## What is this?
+## Anti-Patterns Present
 
-TundraBoard is a realistic backend project that you will progressively build, refactor, and extend using AI-assisted development throughout the programme. It covers authentication, authorisation, CRUD operations, search, notifications, webhooks, and more.
+This codebase includes the following issues for you to identify and fix:
 
-**Built by:** TundraBoard Technologies Limited (fictional)
+- Callback-based async (no async/await)
+- No TypeScript types (plain JavaScript)
+- God-class service file handling multiple responsibilities
+- Hardcoded database credentials
+- SQL queries built with string concatenation
+- Inconsistent error handling
+- No input validation
+- No tests
+- `var` instead of `let`/`const`
+- CommonJS `require()` instead of ES modules
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Language | TypeScript |
-| Framework | Express |
-| ORM | Prisma |
-| Database | PostgreSQL |
-| Testing | Vitest + Supertest |
-| Linting | ESLint + Prettier |
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** 20 or later
-- **PostgreSQL** (local install, Docker, or a free cloud tier like Supabase/Neon)
-- **Git**
-
-### Setup
+## Running Locally
 
 ```bash
-# 1. Clone the repository
-git clone <repository-url>
-cd tundraboard
-
-# 2. Install dependencies
 npm install
-
-# 3. Configure environment
-cp .env.example .env
-# Edit .env with your PostgreSQL connection string
-
-# 4. Run database migrations
-npx prisma migrate dev
-
-# 5. Start the development server
-npm run dev
-
-# 6. Verify it works
-curl http://localhost:3000/health
+# Set up PostgreSQL (see main branch README for Docker instructions)
+node src/index.js
 ```
 
-You should see:
+## Your Task
 
-```json
-{ "status": "ok", "version": "1.0.0", "timestamp": "2026-..." }
-```
+Use AI-assisted modernisation techniques to transform this codebase:
 
-### Using Docker for PostgreSQL
+1. **Assess** — identify and prioritise the technical debt
+2. **Write characterisation tests** — capture current behaviour before changing anything
+3. **Transform** — apply pattern transformations one at a time (callbacks → async/await, add types, extract responsibilities)
+4. **Verify** — ensure behaviour is preserved after each transformation
 
-If you prefer Docker:
-
-```bash
-docker run -d \
-  --name tundraboard-db \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=tundraboard_dev \
-  -p 5432:5432 \
-  postgres:16
-```
-
-## Project Structure
-
-```
-src/
-  index.ts              # Server entry point
-  app.ts                # Express app configuration
-  middleware/
-    authenticate.ts     # JWT authentication (TODO)
-    errorHandler.ts     # Global error handler
-  routes/
-    health.ts           # Health check endpoint (implemented)
-    auth.ts             # Authentication (TODO)
-    workspaces.ts       # Workspace management (TODO)
-    projects.ts         # Project management (TODO)
-    tasks.ts            # Task CRUD (TODO)
-    comments.ts         # Task comments (TODO)
-    labels.ts           # Label management (TODO)
-    notifications.ts    # User notifications (TODO)
-    webhooks.ts         # Webhook management (TODO)
-  services/             # Business logic (you will create these)
-  types/
-    express.d.ts        # Express type extensions
-  utils/
-    prisma.ts           # Prisma client instance
-prisma/
-  schema.prisma         # Database schema
-tests/
-  health.test.ts        # Example test
-```
-
-## Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Compile TypeScript |
-| `npm run test` | Run tests |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
-| `npm run typecheck` | Run TypeScript type checking |
-| `npm run verify` | Run all checks (typecheck + lint + format + test) |
-| `npm run db:migrate` | Run database migrations |
-
-## Core Entities
-
-| Entity | Description |
-|--------|-------------|
-| **users** | Team members with authentication credentials |
-| **workspaces** | Team containers with role-based access (admin, member, viewer) |
-| **projects** | Containers for tasks within a workspace |
-| **tasks** | Work items with title, description, status, priority, assignee, due date |
-| **comments** | Discussion threads on tasks |
-| **labels** | Customisable tags for categorising tasks |
-| **notifications** | In-app notifications for task changes, mentions, deadlines |
-| **webhooks** | Outbound event delivery to external systems |
-| **audit_log** | Immutable record of all user and system actions |
-| **attachments** | Files attached to tasks |
-
-## Branches
-
-| Branch | Description | Used in |
-|--------|-------------|---------|
-| `main` | Clean TypeScript skeleton (this branch) | Module 1, 4, 5 |
-| `module-2-legacy` | Deliberately messy JavaScript with anti-patterns | Module 2 |
-| `module-3-planted-bugs` | Clean TypeScript with 9 planted security/logic bugs | Module 3 |
+See Module 2, Lesson 3 for the full modernisation workflow.
