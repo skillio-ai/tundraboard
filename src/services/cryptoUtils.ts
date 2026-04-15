@@ -1,16 +1,21 @@
 import crypto from "crypto";
 
-// BUG #6 (PLANTED): Uses deprecated crypto.createCipher (removed in Node.js 22)
-// instead of crypto.createCipheriv with an explicit IV.
-// Also: using encryption for token generation is wrong — should use
-// crypto.randomBytes or a proper token library
-export function generateResetToken(userId: string): string {
-  const cipher = crypto.createCipher("aes-256-cbc", "reset-token-secret");
-  let encrypted = cipher.update(userId, "utf8", "hex");
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || "default-encryption-key";
+
+export function encryptApiKey(apiKey: string): string {
+  const cipher = crypto.createCipher("aes-256-cbc", ENCRYPTION_KEY);
+  let encrypted = cipher.update(apiKey, "utf8", "hex");
   encrypted += cipher.final("hex");
   return encrypted;
 }
 
-export function hashApiKey(key: string): string {
-  return crypto.createHash("sha256").update(key).digest("hex");
+export function decryptApiKey(encrypted: string): string {
+  const decipher = crypto.createDecipher("aes-256-cbc", ENCRYPTION_KEY);
+  let decrypted = decipher.update(encrypted, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+  return decrypted;
+}
+
+export function hashForComparison(value: string): string {
+  return crypto.createHash("sha256").update(value).digest("hex");
 }

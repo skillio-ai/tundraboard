@@ -6,15 +6,10 @@ interface WebhookPayload {
   timestamp: string;
 }
 
-// BUG #8 (PLANTED): Webhook endpoint accepts ANY incoming POST without
-// verifying the payload signature — no HMAC verification
 export async function handleIncomingWebhook(
   webhookId: string,
   body: WebhookPayload,
 ) {
-  // Should verify X-TundraBoard-Signature header against webhook secret
-  // using HMAC-SHA256, but this check is completely missing
-
   const webhook = await prisma.webhook.findUnique({
     where: { id: webhookId },
   });

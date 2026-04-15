@@ -1,7 +1,6 @@
 import { prisma } from "../utils/prisma.js";
 import type { Prisma } from "@prisma/client";
 
-// BUG #5 (PLANTED): Hallucinated dependency — this package does not exist on npm
 import { sanitizeHtml } from "express-content-sanitizer";
 
 export async function createTask(data: {
@@ -15,7 +14,7 @@ export async function createTask(data: {
   const task = await prisma.task.create({
     data: {
       title: data.title,
-      description: data.description,
+      description: data.description ? sanitizeHtml(data.description) : undefined,
       projectId: data.projectId,
       priority: data.priority || "medium",
       assigneeId: data.assigneeId || null,
@@ -52,8 +51,6 @@ export async function deleteTask(id: string) {
   await prisma.task.delete({ where: { id } });
 }
 
-// BUG #1 (PLANTED): SQL injection in search — uses $queryRawUnsafe with
-// string interpolation instead of parameterised query
 export async function searchTasks(
   projectId: string,
   searchTerm: string,
@@ -76,8 +73,6 @@ export async function searchTasks(
     whereClause += ` AND t.assignee_id = '${filters.assigneeId}'`;
   }
 
-  // BUG #7 (PLANTED): Offset-based pagination — skips/duplicates items
-  // when records are inserted between page fetches
   const offset = (page - 1) * pageSize;
 
   const tasks = await prisma.$queryRawUnsafe(

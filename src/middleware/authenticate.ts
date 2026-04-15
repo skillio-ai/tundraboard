@@ -8,7 +8,6 @@ interface JwtPayload {
   email: string;
 }
 
-// BUG #2 (PLANTED): ignoreExpiration: true — expired tokens are accepted
 export function authenticate(
   req: Request,
   res: Response,

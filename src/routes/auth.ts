@@ -7,10 +7,6 @@ export const authRouter = Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-me-to-a-real-secret-in-production";
 
-// BUG #9 (PLANTED): No rate limiting on login endpoint — an attacker can
-// brute-force passwords with unlimited attempts per second.
-// Should use express-rate-limit or similar middleware.
-
 // Register
 authRouter.post("/register", async (req, res, next) => {
   try {
