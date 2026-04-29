@@ -22,10 +22,18 @@ This codebase includes the following issues for you to identify and fix:
 ## Running Locally
 
 ```bash
-npm install
+# Install dependencies (respects the lockfile exactly)
+npm ci
+
+# Check for known vulnerabilities and verify package signatures
+npm audit
+npm audit signatures
+
 # Set up PostgreSQL (see main branch README for Docker instructions)
 node src/index.js
 ```
+
+> The repo sets `ignore-scripts=true` in `.npmrc` to block postinstall execution during `npm ci`. If you add a native dependency that needs a build step, run `npm rebuild` after install to trigger it manually.
 
 ## Your Task
 
