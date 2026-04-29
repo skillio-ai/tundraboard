@@ -48,7 +48,6 @@ cp .env.example .env
 # Edit .env with your PostgreSQL connection string
 
 # 6. Run database migrations
-# You will be prompted to name the migration — "init" is a good choice for the first run
 npm run db:migrate
 
 # 7. Start the development server
