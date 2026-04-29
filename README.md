@@ -37,17 +37,23 @@ cd tundraboard
 # 2. Install dependencies
 npm install
 
-# 3. Configure environment
+# 3. Check for known vulnerabilities
+npm audit
+
+# 4. Generate the Prisma client
+npx prisma generate
+
+# 5. Configure environment
 cp .env.example .env
 # Edit .env with your PostgreSQL connection string
 
-# 4. Run database migrations
-npx prisma migrate dev
+# 6. Run database migrations
+npm run db:migrate
 
-# 5. Start the development server
+# 7. Start the development server
 npm run dev
 
-# 6. Verify it works
+# 8. Verify it works
 curl http://localhost:3000/health
 ```
 
@@ -113,7 +119,8 @@ tests/
 | `npm run format` | Format code with Prettier |
 | `npm run typecheck` | Run TypeScript type checking |
 | `npm run verify` | Run all checks (typecheck + lint + format + test) |
-| `npm run db:migrate` | Run database migrations |
+| `npm run db:generate` | Generate the Prisma client |
+| `npm run db:migrate` | Generate Prisma client and run database migrations |
 
 ## Core Entities
 
