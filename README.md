@@ -34,26 +34,24 @@ TundraBoard is a realistic backend project that you will progressively build, re
 git clone <repository-url>
 cd tundraboard
 
-# 2. Install dependencies
-npm install
+# 2. Install dependencies (respects the lockfile exactly)
+npm ci
 
-# 3. Check for known vulnerabilities
+# 3. Check for known vulnerabilities and verify package signatures
 npm audit
+npm audit signatures
 
-# 4. Generate the Prisma client
-npx prisma generate
-
-# 5. Configure environment
+# 4. Configure environment
 cp .env.example .env
 # Edit .env with your PostgreSQL connection string
 
-# 6. Run database migrations
+# 5. Run database migrations
 npm run db:migrate
 
-# 7. Start the development server
+# 6. Start the development server
 npm run dev
 
-# 8. Verify it works
+# 7. Verify it works
 curl http://localhost:3000/health
 ```
 
@@ -76,6 +74,10 @@ docker run -d \
   -p 5432:5432 \
   postgres:16
 ```
+
+### Adding dependencies with native install scripts
+
+This repo sets `ignore-scripts=true` in `.npmrc` to block postinstall execution during `npm ci`. Most packages work fine, but some native dependencies (e.g. `sharp`, `better-sqlite3`, `bcrypt`) require a build step that runs via install scripts. If you add such a package and get confusing runtime errors, run `npm rebuild` after install to trigger the build manually.
 
 ## Project Structure
 
