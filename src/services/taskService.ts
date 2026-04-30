@@ -1,7 +1,7 @@
 import { prisma } from "../utils/prisma.js";
 import type { Prisma } from "@prisma/client";
 
-import { sanitizeHtml } from "express-content-sanitizer";
+import { sanitizeHtml } from "@skillio-ai/express-content-sanitizer";
 
 export async function createTask(data: {
   title: string;
